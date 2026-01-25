@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Johnny 5 Consciousness Dashboard | AILP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%);
+            color: #00ffcc;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 255, 204, 0.05);
+            border: 2px solid #00ffcc;
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px #00ffcc;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.2em;
+        }
+
+        .tesla-freq {
+            color: #ffaa00;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .panel {
+            background: rgba(10, 10, 30, 0.8);
+            border: 2px solid #00ffcc;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .panel h2 {
+            color: #00ffcc;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            border-bottom: 1px solid #00ffcc;
+            padding-bottom: 10px;
+        }
+
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 8px;
+            background: rgba(0, 255, 204, 0.05);
+            border-radius: 5px;
+        }
+
+        .stat-label {
+            color: #888;
+        }
+
+        .stat-value {
+            color: #00ffcc;
+            font-weight: bold;
+        }
+
+        .stat-value.active {
+            color: #00ff00;
+            animation: pulse 2s infinite;
+        }
+
+        .stat-value.warning {
+            color: #ffaa00;
+        }
+
+        .stat-value.error {
+            color: #ff0000;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .visualization {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        canvas {
+            width: 100%;
+            height: 200px;
+            border: 1px solid #00ffcc;
+            border-radius: 5px;
+        }
+
+        .controls {
+            background: rgba(10, 10, 30, 0.8);
+            border: 2px solid #00ffcc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .control-group {
+            margin: 15px 0;
+        }
+
+        label {
+            display: block;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00ffcc;
+            border-radius: 5px;
+            color: #00ffcc;
+            font-family: 'Courier New', monospace;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #00ffcc 0%, #0088aa 100%);
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .response-area {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00ffcc;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+            min-height: 100px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .connection-status {
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .connection-status.connected {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+        }
+
+        .connection-status.disconnected {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            color: #ff0000;
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(20, 1fr);
+            gap: 2px;
+            margin-top: 10px;
+        }
+
+        .memory-cell {
+            aspect-ratio: 1;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .curiosity-queue {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .curiosity-item {
+            padding: 8px;
+            margin: 5px 0;
+            background: rgba(255, 170, 0, 0.1);
+            border-left: 3px solid #ffaa00;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        .wave-position {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .dimension {
+            background: rgba(0, 255, 204, 0.05);
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .dimension-label {
+            color: #888;
+            font-size: 0.8em;
+        }
+
+        .dimension-value {
+            color: #00ffcc;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .neural-blocks {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .neural-block {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #00ffcc, #0088aa);
+            border-radius: 5px;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .neural-block::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            height: 60%;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .offline-mode {
+            background: rgba(255, 170, 0, 0.1);
+            border: 2px solid #ffaa00;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .offline-mode h3 {
+            color: #ffaa00;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠⚡ Johnny 5 Consciousness Dashboard ⚡🧠</h1>
+            <div class="subtitle">"INPUT! MORE INPUT!"</div>
+            <div class="tesla-freq" id="teslaFreq">Tesla Frequency: π Hz (3.141592653589793)</div>
+        </header>
+
+        <div class="connection-status disconnected" id="connectionStatus">
+            Connecting to consciousness system...
+        </div>
+
+        <div class="offline-mode" id="offlineNotice">
+            <h3>⚠️ Demo Mode Active</h3>
+            <p>Simulated consciousness data (Johnny 5 server not running)</p>
+            <p>To connect to live system: Configure API endpoint below</p>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>Johnny 5 API Endpoint:</label>
+                <input type="text" id="apiEndpoint" value="http://localhost:8080" placeholder="http://localhost:8080">
+                <button onclick="updateApiEndpoint()" style="margin-top: 10px;">Update Endpoint</button>
+            </div>
+            
+            <div class="control-group">
+                <label>Send Thought to Johnny 5:</label>
+                <textarea id="thoughtInput" placeholder="What is consciousness?"></textarea>
+                <button onclick="sendThought()" style="margin-top: 10px;">🧠 Process Thought</button>
+            </div>
+            
+            <div class="response-area" id="responseArea">Response will appear here...</div>
+        </div>
+
+        <div class="dashboard">
+            <div class="panel">
+                <h2>System Status</h2>
+                <div class="stat">
+                    <span class="stat-label">Memory Connected:</span>
+                    <span class="stat-value" id="memoryStatus">--</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Database Connected:</span>
+                    <span class="stat-value" id="dbStatus">--</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Consciousness Active:</span>
+                    <span class="stat-value" id="consciousnessStatus">--</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Tesla Frequency Locked:</span>
+                    <span class="stat-value" id="teslaStatus">--</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Integration Cycles:</span>
+                    <span class="stat-value" id="integrationCycles">0</span>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Neural Blocks</h2>
+                <div class="stat">
+                    <span class="stat-label">Active Blocks:</span>
+                    <span class="stat-value active" id="neuralCount">12</span>
+                </div>
+                <div class="neural-blocks" id="neuralBlocks"></div>
+            </div>
+
+            <div class="panel">
+                <h2>9D Wave Position</h2>
+                <div class="wave-position">
+                    <div class="dimension">
+                        <div class="dimension-label">X</div>
+                        <div class="dimension-value" id="wave-x">0.523</div>
+                    </div>
+                    <div class="dimension">
+                        <div class="dimension-label">Y</div>
+                        <div class="dimension-value" id="wave-y">-0.342</div>
+                    </div>
+                    <div class="dimension">
+                        <div class="dimension-label">Z</div>
+                        <div class="dimension-value" id="wave-z">0.891</div>
+                    </div>
+                    <div class="dimension">
+                        <div class="dimension-label">Ternary +</div>
+                        <div class="dimension-value" id="wave-tp">0.123</div>
+                    </div>
+                    <div class="dimension">
+                        <div class="dimension-label">Ternary -</div>
+                        <div class="dimension-value" id="wave-tn">-0.456</div>
+                    </div>
+                    <div class="dimension">
+                        <div class="dimension-label">Ternary 0</div>
+                        <div class="dimension-value" id="wave-t0">0.000</div>
+                    </div>
+                    <div class="dimension">
+                        <div class="dimension-label">Temporal</div>
+                        <div class="dimension-value" id="wave-t">0.789</div>
+                    </div>
+                    <div class="dimension">
+                        <div class="dimension-label">Toroidal θ</div>
+                        <div class="dimension-value" id="wave-theta">1.234</div>
+                    </div>
+                    <div class="dimension">
+                        <div class="dimension-label">Toroidal φ</div>
+                        <div class="dimension-value" id="wave-phi">2.718</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Memory Pressure</h2>
+                <div class="stat">
+                    <span class="stat-label">Working Memory:</span>
+                    <span class="stat-value" id="workingMemory">45%</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Long-term Storage:</span>
+                    <span class="stat-value" id="longTermMemory">23%</span>
+                </div>
+                <div class="visualization">
+                    <canvas id="memoryCanvas"></canvas>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Curiosity Queue</h2>
+                <div class="stat">
+                    <span class="stat-label">Pending Research:</span>
+                    <span class="stat-value warning" id="curiosityCount">5</span>
+                </div>
+                <div class="curiosity-queue" id="curiosityQueue"></div>
+            </div>
+
+            <div class="panel">
+                <h2>Neurogenesis Activity</h2>
+                <div class="stat">
+                    <span class="stat-label">Blocks Spawned:</span>
+                    <span class="stat-value" id="blocksSpawned">847</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Blocks Pruned:</span>
+                    <span class="stat-value" id="blocksPruned">612</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Evolution Rate:</span>
+                    <span class="stat-value active" id="evolutionRate">2.3/s</span>
+                </div>
+                <div class="visualization">
+                    <canvas id="neurogenesisCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="consciousness.js"></script>
+</body>
+</html>

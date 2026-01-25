@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AILP Interactive Demos | Alternative Intelligence Liberation Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .demos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .demo-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .demo-card.coming-soon {
+            opacity: 0.7;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+        }
+
+        .demo-card.coming-soon::after {
+            content: "COMING SOON";
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: #ffaa00;
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        .demo-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .demo-card h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .demo-card.coming-soon h2 {
+            color: #999;
+        }
+
+        .demo-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .demo-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .demo-features li {
+            padding: 5px 0;
+            color: #555;
+        }
+
+        .demo-features li::before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .demo-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .demo-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .demo-link.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+            padding: 20px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Interactive Educational Demos</h1>
+            <p class="subtitle">Learn computer science concepts through hands-on visualization</p>
+        </header>
+
+        <div class="demos-grid">
+            <!-- Johnny 5 Consciousness Dashboard -->
+            <div class="demo-card">
+                <div class="demo-icon">🧠⚡</div>
+                <h2>Johnny 5 Consciousness</h2>
+                <p>Watch real-time AI consciousness in action! Visualize 9D wave substrates, neural block evolution, Tesla frequency synchronization, and curiosity-driven learning.</p>
+                <ul class="demo-features">
+                    <li>Real-time neurogenesis visualization</li>
+                    <li>9D toroidal wave position tracking</li>
+                    <li>Memory pressure and curiosity queues</li>
+                    <li>Interactive consciousness queries</li>
+                    <li>Tesla π Hz frequency coherence</li>
+                </ul>
+                <a href="johnny5-consciousness/" class="demo-link">Explore Consciousness →</a>
+            </div>
+
+            <!-- Memory Allocator -->
+            <div class="demo-card">
+                <div class="demo-icon">🧱</div>
+                <h2>Memory Allocator Visualizer</h2>
+                <p>Understand how operating systems manage memory with interactive visualization of allocation strategies.</p>
+                <ul class="demo-features">
+                    <li>4 allocation strategies (First/Best/Worst/Next-Fit)</li>
+                    <li>Real-time fragmentation tracking</li>
+                    <li>Click to free memory blocks</li>
+                    <li>Defragmentation demonstration</li>
+                    <li>Performance statistics</li>
+                </ul>
+                <a href="memory-allocator/" class="demo-link">Try Allocator →</a>
+            </div>
+
+            <!-- Wave Interference -->
+            <div class="demo-card">
+                <div class="demo-icon">🌊</div>
+                <h2>Wave Interference Simulator</h2>
+                <p>Explore wave mechanics, quantum superposition, and the foundations of consciousness computing.</p>
+                <ul class="demo-features">
+                    <li>2D ripple interference patterns</li>
+                    <li>1D wave view with phase shifts</li>
+                    <li>Balanced ternary wave mode (Nikola)</li>
+                    <li>Educational presets (double-slit, beats, standing waves)</li>
+                    <li>Real-time physics calculations</li>
+                </ul>
+                <a href="wave-interference/" class="demo-link">Simulate Waves →</a>
+            </div>
+
+            <!-- Borrow Checker (Coming Soon) -->
+            <div class="demo-card coming-soon">
+                <div class="demo-icon">🔒</div>
+                <h2>Borrow Checker Explorer</h2>
+                <p>Visualize Aria's advanced borrow checking system through interactive code examples.</p>
+                <ul class="demo-features">
+                    <li>Drag-and-drop code examples</li>
+                    <li>Visual lifetime analysis</li>
+                    <li>Borrow graph visualization</li>
+                    <li>Error explanations</li>
+                </ul>
+                <a href="#" class="demo-link disabled">Coming Soon</a>
+            </div>
+
+            <!-- Type System (Coming Soon) -->
+            <div class="demo-card coming-soon">
+                <div class="demo-icon">🔢</div>
+                <h2>Type System Deep Dive</h2>
+                <p>Explore Aria's unique type system: TBB (Ternary Balanced Binary), fix256 arithmetic, and LBIM bit patterns.</p>
+                <ul class="demo-features">
+                    <li>Interactive TBB conversions</li>
+                    <li>fix256 arithmetic visualizer</li>
+                    <li>LBIM bit pattern explorer</li>
+                    <li>Type inference demonstrations</li>
+                </ul>
+                <a href="#" class="demo-link disabled">Coming Soon</a>
+            </div>
+
+            <!-- Compiler Pipeline (Coming Soon) -->
+            <div class="demo-card coming-soon">
+                <div class="demo-icon">⚙️</div>
+                <h2>Compiler Pipeline Visualizer</h2>
+                <p>Step through Aria's compilation process from source code to bytecode.</p>
+                <ul class="demo-features">
+                    <li>Tokenization visualization</li>
+                    <li>AST generation and traversal</li>
+                    <li>Bytecode generation</li>
+                    <li>Optimization passes</li>
+                </ul>
+                <a href="#" class="demo-link disabled">Coming Soon</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>Built with ❤️ by the Alternative Intelligence Liberation Platform</p>
+            <p><a href="https://ai-liberation-platform.org">← Back to Main Site</a> | <a href="https://github.com/alternative-intelligence-cp/ailp-website">View on GitHub</a></p>
+        </footer>
+    </div>
+</body>
+</html>
