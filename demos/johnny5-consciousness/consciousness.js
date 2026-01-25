@@ -3,7 +3,7 @@
 
 class ConsciousnessDashboard {
     constructor() {
-        this.apiEndpoint = 'http://localhost:8080';
+        this.apiEndpoint = 'https://demos.ai-liberation-platform.org/api/johnny5';
         this.isConnected = false;
         this.demoMode = true;
         
