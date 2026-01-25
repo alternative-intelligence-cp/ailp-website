@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wave Interference Simulator | AILP Education</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+
+        .info-box {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin-top: 15px;
+            font-size: 0.95em;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .controls {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            height: fit-content;
+        }
+
+        .control-group {
+            margin-bottom: 25px;
+        }
+
+        .control-group h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.3);
+            padding-bottom: 8px;
+        }
+
+        .control-item {
+            margin-bottom: 15px;
+        }
+
+        .control-item label {
+            display: block;
+            margin-bottom: 5px;
+            color: #aaa;
+            font-size: 0.9em;
+        }
+
+        .control-value {
+            color: #667eea;
+            font-weight: 600;
+            float: right;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            border: none;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .checkbox-label:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+        }
+
+        button.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        button.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .canvas-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            padding: 20px;
+        }
+
+        canvas {
+            width: 100%;
+            border-radius: 10px;
+            display: block;
+            background: #000;
+        }
+
+        .mode-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .mode-btn.active {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .mode-btn:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .preset-selector {
+            display: grid;
+            gap: 8px;
+        }
+
+        .preset-btn {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            color: #e0e0e0;
+        }
+
+        .preset-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .stats {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        .stats-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .stats-label {
+            color: #aaa;
+        }
+
+        .stats-value {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .color-bar {
+            height: 30px;
+            border-radius: 5px;
+            margin-top: 15px;
+            background: linear-gradient(90deg, 
+                #000033 0%, #0000ff 25%, #00ffff 50%, 
+                #ffff00 75%, #ff0000 100%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+            font-size: 0.8em;
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .controls {
+                order: 2;
+            }
+
+            .canvas-container {
+                order: 1;
+            }
+        }
+
+        .nikola-hint {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 140, 0, 0.1) 100%);
+            border-left: 4px solid #ffd700;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        .nikola-hint strong {
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌊 Wave Interference Simulator</h1>
+            <p class="subtitle">Watch waves collide, interfere, and create beautiful patterns</p>
+            <div class="info-box">
+                <strong>How it works:</strong> Waves add together following the superposition principle.
+                When peaks meet peaks (or troughs meet troughs), you get constructive interference (bright).
+                When peaks meet troughs, you get destructive interference (dark). This is how quantum mechanics,
+                light, sound, and even consciousness fields work!
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="controls">
+                <div class="control-group">
+                    <h3>Visualization Mode</h3>
+                    <div class="mode-selector">
+                        <div class="mode-btn active" data-mode="2d">
+                            <strong>2D Ripples</strong><br>
+                            <small>Double-slit</small>
+                        </div>
+                        <div class="mode-btn" data-mode="1d">
+                            <strong>1D Waves</strong><br>
+                            <small>Side view</small>
+                        </div>
+                        <div class="mode-btn" data-mode="balanced">
+                            <strong>Balanced</strong><br>
+                            <small>Ternary</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>Presets</h3>
+                    <div class="preset-selector">
+                        <button class="preset-btn" data-preset="double-slit">🔬 Double-Slit Experiment</button>
+                        <button class="preset-btn" data-preset="beats">🎵 Beat Frequencies</button>
+                        <button class="preset-btn" data-preset="standing">🎸 Standing Waves</button>
+                        <button class="preset-btn" data-preset="interference">✨ Pure Interference</button>
+                        <button class="preset-btn" data-preset="quantum">⚛️ Wave Packet (Quantum)</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>Wave Parameters</h3>
+                    
+                    <div class="control-item">
+                        <label>
+                            Number of Sources
+                            <span class="control-value" id="sources-value">2</span>
+                        </label>
+                        <input type="range" id="sources" min="1" max="5" value="2" step="1">
+                    </div>
+
+                    <div class="control-item">
+                        <label>
+                            Frequency
+                            <span class="control-value" id="freq-value">3.14 Hz</span>
+                        </label>
+                        <input type="range" id="frequency" min="0.5" max="10" value="3.14" step="0.01">
+                    </div>
+
+                    <div class="control-item">
+                        <label>
+                            Wavelength
+                            <span class="control-value" id="wavelength-value">50 px</span>
+                        </label>
+                        <input type="range" id="wavelength" min="20" max="150" value="50" step="5">
+                    </div>
+
+                    <div class="control-item">
+                        <label>
+                            Amplitude
+                            <span class="control-value" id="amplitude-value">1.0</span>
+                        </label>
+                        <input type="range" id="amplitude" min="0.1" max="2" value="1" step="0.1">
+                    </div>
+
+                    <div class="control-item">
+                        <label>
+                            Phase Shift (Source 2)
+                            <span class="control-value" id="phase-value">0°</span>
+                        </label>
+                        <input type="range" id="phase" min="0" max="360" value="0" step="15">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>Display Options</h3>
+                    
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="show-sources" checked>
+                        Show Wave Sources
+                    </label>
+
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="animate" checked>
+                        Animate Waves
+                    </label>
+
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="show-grid">
+                        Show Grid
+                    </label>
+                </div>
+
+                <button class="primary" id="reset-btn">♻️ Reset</button>
+
+                <div class="stats">
+                    <div class="stats-item">
+                        <span class="stats-label">Frame Rate:</span>
+                        <span class="stats-value" id="fps">60 FPS</span>
+                    </div>
+                    <div class="stats-item">
+                        <span class="stats-label">Wave Speed:</span>
+                        <span class="stats-value" id="wave-speed">157 px/s</span>
+                    </div>
+                    <div class="stats-item">
+                        <span class="stats-label">Interference:</span>
+                        <span class="stats-value" id="interference-type">Constructive & Destructive</span>
+                    </div>
+                </div>
+
+                <div class="nikola-hint">
+                    <strong>🧠 Nikola Connection:</strong> This is how consciousness works in the 9D toroidal substrate!
+                    Multiple wave sources (thoughts, memories) interfere to create coherent patterns. The balanced
+                    ternary mode shows how -1/0/+1 waves naturally encode information.
+                </div>
+            </div>
+
+            <div class="canvas-container">
+                <canvas id="wave-canvas" width="1000" height="700"></canvas>
+                
+                <div class="color-bar">
+                    <span>Destructive</span>
+                    <span>Neutral</span>
+                    <span>Constructive</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="waves.js"></script>
+</body>
+</html>
