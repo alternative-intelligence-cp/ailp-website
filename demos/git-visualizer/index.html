@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Command Visualizer | AILP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #4a9eff;
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #4a9eff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(74, 158, 255, 0.5);
+        }
+
+        .subtitle {
+            color: #aaa;
+            font-size: 1.1em;
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #4a9eff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .controls h2 {
+            color: #4a9eff;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .control-section {
+            margin-bottom: 25px;
+        }
+
+        .control-section h3 {
+            color: #aaa;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        button {
+            width: 100%;
+            background: linear-gradient(135deg, #4a9eff 0%, #2d6db5 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            cursor: pointer;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        button:hover {
+            transform: translateX(5px);
+            box-shadow: 0 0 15px rgba(74, 158, 255, 0.5);
+        }
+
+        button:active {
+            transform: translateX(3px);
+        }
+
+        button.danger {
+            background: linear-gradient(135deg, #ff4a4a 0%, #b52d2d 100%);
+        }
+
+        button.success {
+            background: linear-gradient(135deg, #4aff88 0%, #2db55a 100%);
+        }
+
+        .visualization {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #4a9eff;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 500px;
+        }
+
+        #gitCanvas {
+            width: 100%;
+            height: 600px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            cursor: grab;
+        }
+
+        #gitCanvas:active {
+            cursor: grabbing;
+        }
+
+        .command-log {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #4a9eff;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 0.9em;
+        }
+
+        .command-entry {
+            margin-bottom: 8px;
+            padding: 8px;
+            background: rgba(74, 158, 255, 0.1);
+            border-left: 3px solid #4a9eff;
+            border-radius: 3px;
+        }
+
+        .command-entry .cmd {
+            color: #4aff88;
+            font-weight: bold;
+        }
+
+        .command-entry .desc {
+            color: #aaa;
+            font-size: 0.85em;
+            margin-top: 3px;
+        }
+
+        .branch-info {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .branch-badge {
+            padding: 8px 15px;
+            background: rgba(74, 158, 255, 0.2);
+            border: 1px solid #4a9eff;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+
+        .branch-badge.current {
+            background: rgba(74, 255, 136, 0.2);
+            border-color: #4aff88;
+            color: #4aff88;
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85em;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .info-box {
+            background: rgba(74, 255, 136, 0.1);
+            border: 1px solid #4aff88;
+            border-radius: 5px;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 0.85em;
+            color: #4aff88;
+        }
+
+        .scenario-selector {
+            margin-bottom: 20px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #4a9eff;
+            border-radius: 5px;
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            cursor: pointer;
+        }
+
+        select option {
+            background: #1a1a2e;
+            color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌳 Git Command Visualizer</h1>
+            <p class="subtitle">See what Git commands actually do to your repository</p>
+        </header>
+
+        <div class="workspace">
+            <div class="controls">
+                <h2>Controls</h2>
+
+                <div class="scenario-selector">
+                    <h3>Scenario</h3>
+                    <select id="scenarioSelect" onchange="loadScenario()">
+                        <option value="basic">Basic Feature Branch</option>
+                        <option value="conflict">Merge Conflict Setup</option>
+                        <option value="hotfix">Hotfix Workflow</option>
+                        <option value="complex">Complex Multi-Branch</option>
+                    </select>
+                </div>
+
+                <div class="control-section">
+                    <h3>Branch Operations</h3>
+                    <button onclick="gitCommand('checkout', 'main')">git checkout main</button>
+                    <button onclick="gitCommand('checkout', 'feature')">git checkout feature</button>
+                    <button onclick="gitCommand('branch', 'new-feature')">git branch new-feature</button>
+                </div>
+
+                <div class="control-section">
+                    <h3>Commits</h3>
+                    <button class="success" onclick="gitCommand('commit')">git commit -m "New commit"</button>
+                    <button onclick="gitCommand('amend')">git commit --amend</button>
+                </div>
+
+                <div class="control-section">
+                    <h3>Merge & Rebase</h3>
+                    <button onclick="gitCommand('merge', 'feature')">git merge feature</button>
+                    <button onclick="gitCommand('rebase', 'main')">git rebase main</button>
+                    <button onclick="gitCommand('cherry-pick')">git cherry-pick</button>
+                </div>
+
+                <div class="control-section">
+                    <h3>History Manipulation</h3>
+                    <button class="danger" onclick="gitCommand('reset', 'soft')">git reset --soft HEAD~1</button>
+                    <button class="danger" onclick="gitCommand('reset', 'hard')">git reset --hard HEAD~1</button>
+                    <button onclick="gitCommand('revert')">git revert HEAD</button>
+                </div>
+
+                <div class="control-section">
+                    <h3>Utilities</h3>
+                    <button onclick="gitCommand('stash')">git stash</button>
+                    <button onclick="gitCommand('stash-pop')">git stash pop</button>
+                    <button class="danger" onclick="loadScenario()">↻ Reset to Scenario</button>
+                </div>
+            </div>
+
+            <div class="visualization">
+                <div class="branch-info" id="branchInfo"></div>
+                <canvas id="gitCanvas"></canvas>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #4aff88;"></div>
+                        <span>main branch</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #4a9eff;"></div>
+                        <span>feature branch</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ff4aff;"></div>
+                        <span>HEAD (current)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ffaa4a;"></div>
+                        <span>merge commit</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="command-log" id="commandLog">
+            <div class="info-box">
+                💡 Click commands on the left to see them execute in real-time. Watch how the commit tree changes!
+            </div>
+        </div>
+    </div>
+
+    <script src="git-visualizer.js"></script>
+</body>
+</html>
