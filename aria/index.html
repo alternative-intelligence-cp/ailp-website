@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aria Programming Language</title>
+    <style>
+        :root {
+            --bg-main: #1e1e1e;
+            --bg-card: #252526;
+            --bg-hover: #2d2d2d;
+            --text-main: #d4d4d4;
+            --text-muted: #858585;
+            --accent: #4ec9b0;
+            --link: #569cd6;
+            --border: #3e3e42;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--bg-card);
+            border-bottom: 2px solid var(--accent);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--accent);
+            color: #1e1e1e;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid var(--accent);
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--accent);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--link);
+            border-color: var(--link);
+        }
+
+        .btn-secondary:hover {
+            background: var(--link);
+            color: #1e1e1e;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(78, 201, 176, 0.1);
+        }
+
+        .feature-card h3 {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .feature-card ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .feature-card li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .code-example {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .code-example h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .code-example pre {
+            background: #2d2d2d;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        .code-example code {
+            color: #ce9178;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+        }
+
+        .status {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .status h2 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .status-item {
+            padding: 1rem;
+            background: var(--bg-hover);
+            border-radius: 5px;
+        }
+
+        .status-item strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #2ea043;
+            color: white;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .badge-stable {
+            background: #2ea043;
+        }
+
+        .badge-beta {
+            background: #bf8700;
+        }
+
+        .badge-dev {
+            background: #1f6feb;
+        }
+
+        footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            margin-top: 4rem;
+        }
+
+        footer a {
+            color: var(--link);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Aria</h1>
+        <p>A Modern Systems Programming Language</p>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h2>Building Reliable, Efficient Systems</h2>
+            <p>
+                Aria is a statically-typed systems programming language designed for performance, safety, and developer productivity.
+                With a focus on zero-cost abstractions and compile-time guarantees, Aria empowers you to write fast, correct code.
+            </p>
+            <div class="cta-buttons">
+                <a href="docs/" class="btn">📘 Read Documentation</a>
+                <a href="https://github.com/YourOrg/aria" class="btn btn-secondary">💻 View on GitHub</a>
+            </div>
+        </div>
+
+        <div class="status">
+            <h2>🚀 Current Status (February 15, 2026)</h2>
+            <div class="status-grid">
+                <div class="status-item">
+                    <strong>Compiler Toolchain</strong>
+                    515 comprehensive tests<br>
+                    V2 fuzzer validation active<br>
+                    LLVM backend
+                </div>
+                <div class="status-item">
+                    <strong>Development Phase</strong>
+                    Phase 2 (51% complete)<br>
+                    Session 34 active<br>
+                    stdlib expansion ongoing
+                </div>
+                <div class="status-item">
+                    <strong>Test Coverage</strong>
+                    Syntax: 98%<br>
+                    Semantics: 95%<br>
+                    Codegen: 92%
+                </div>
+                <div class="status-item">
+                    <strong>Documentation</strong>
+                    350+ guide pages<br>
+                    11 major categories<br>
+                    Full API reference
+                </div>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <h3>⚡ Zero-Cost Abstractions</h3>
+                <p>
+                    Generic functions and structs with monomorphization. Write high-level code that compiles
+                    to optimal machine code with no runtime overhead.
+                </p>
+                <ul>
+                    <li>Generic functions with type inference</li>
+                    <li>Generic structs with specialization</li>
+                    <li>Compile-time evaluation</li>
+                </ul>
+                <span class="badge badge-stable">STABLE</span>
+            </div>
+
+            <div class="feature-card">
+                <h3>🛡️ Memory Safety</h3>
+                <p>
+                    Ownership system with borrow checker ensures memory safety without garbage collection.
+                    Catch bugs at compile time, not runtime.
+                </p>
+                <ul>
+                    <li>Ownership and borrowing</li>
+                    <li>No null pointer derefs</li>
+                    <li>No data races</li>
+                </ul>
+                <span class="badge badge-stable">STABLE</span>
+            </div>
+
+            <div class="feature-card">
+                <h3>🎯 Result Types</h3>
+                <p>
+                    Explicit error handling with <code>pass</code>/<code>fail</code> and the <code>?</code> operator.
+                    No hidden control flow, no exceptions.
+                </p>
+                <ul>
+                    <li>Type-safe error handling</li>
+                    <li>Ergonomic ? operator</li>
+                    <li>No try/catch overhead</li>
+                </ul>
+                <span class="badge badge-stable">STABLE</span>
+            </div>
+
+            <div class="feature-card">
+                <h3>📦 Module System</h3>
+                <p>
+                    Modern module system with explicit visibility control. Use <code>use</code>, <code>mod</code>,
+                    <code>pub</code>, and <code>extern</code> for clean namespaces.
+                </p>
+                <ul>
+                    <li>Explicit imports</li>
+                    <li>Public/private visibility</li>
+                    <li>External library support</li>
+                </ul>
+                <span class="badge badge-stable">STABLE</span>
+            </div>
+
+            <div class="feature-card">
+                <h3>🔢 Rich Type System</h3>
+                <p>
+                    Comprehensive primitive types, arrays, structs, and enums. Everything you need
+                    for systems programming with full type safety.
+                </p>
+                <ul>
+                    <li>Sized integers (int8, int16, int32, int64)</li>
+                    <li>Floating point (float32, float64)</li>
+                    <li>Fixed and dynamic arrays</li>
+                </ul>
+                <span class="badge badge-stable">STABLE</span>
+            </div>
+
+            <div class="feature-card">
+                <h3>⚙️ Standard Library</h3>
+                <p>
+                    Growing standard library with I/O, collections, string manipulation, and more.
+                    Batteries included for common tasks.
+                </p>
+                <ul>
+                    <li>I/O system (print, read, file operations)</li>
+                    <li>Core modules (math, strings, collections)</li>
+                    <li>Continuously expanding</li>
+                </ul>
+                <span class="badge badge-dev">EXPANDING</span>
+            </div>
+        </div>
+
+        <div class="code-example">
+            <h3>Hello, Aria! 👋</h3>
+            <pre><code>// Simple generic function with type inference
+fn<T> max(a: T, b: T) -> T {
+    if a > b {
+        pass a;
+    } else {
+        pass b;
+    }
+}
+
+// Result type with error handling
+fn divide(a: int32, b: int32) -> int32 or DivisionError {
+    if b == 0 {
+        fail DivisionError.DivideByZero;
+    }
+    pass a / b;
+}
+
+// Entry point
+fn main() {
+    let result = max(42, 100);      // Type inferred as int32
+    print("Max: ", result);          // Prints: Max: 100
+    
+    let quotient = divide(10, 2)?;  // ? operator propagates errors
+    print("Result: ", quotient);     // Prints: Result: 5
+}</code></pre>
+        </div>
+    </div>
+
+    <footer>
+        <p>
+            &copy; 2026 Aria Programming Language | 
+            <a href="docs/">Documentation</a> | 
+            <a href="https://github.com/YourOrg/aria">GitHub</a> |
+            <a href="../">AI Liberation Platform</a>
+        </p>
+    </footer>
+</body>
+</html>

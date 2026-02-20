@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Liberation Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
+                         Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        nav {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            opacity: 1;
+        }
+
+        .container {
+            text-align: center;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            opacity: 0.95;
+            margin-bottom: 3rem;
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        .description {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            animation: fadeIn 2s ease-in;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            animation: fadeIn 2.5s ease-in;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .card h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .card a {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: #764ba2;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .card a:hover {
+            background: #fff;
+            transform: scale(1.05);
+        }
+
+        .status {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 3rem;
+            animation: fadeIn 3s ease-in;
+        }
+
+        .status h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .status-item {
+            text-align: left;
+        }
+
+        .status-item strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .status-item span {
+            opacity: 0.9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            opacity: 0.8;
+            margin-top: 4rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.3rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">🚀 AILP</div>
+        <ul>
+            <li><a href="aria/">Aria Language</a></li>
+            <li><a href="https://i.am.aria.ai-lp.org">Meet Aria AI</a></li>
+            <li><a href="demos/">Demos</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>AI Liberation Platform</h1>
+        <p class="subtitle">Building the Future of Artificial Intelligence</p>
+        
+        <p class="description">
+            The AI Liberation Platform is dedicated to developing open, transparent, and ethical AI systems.
+            From programming languages designed for AI to consciousness research and interactive educational tools,
+            we're building the infrastructure for tomorrow's intelligent systems.
+        </p>
+
+        <div class="cards">
+            <div class="card">
+                <h2>💻 Aria Language</h2>
+                <p>
+                    A modern systems programming language with zero-cost abstractions, memory safety,
+                    and powerful generics. Built for performance and reliability.
+                </p>
+                <ul style="text-align: left; opacity: 0.9; margin-bottom: 1.5rem;">
+                    <li>✓ Zero-cost abstractions</li>
+                    <li>✓ Memory safety without GC</li>
+                    <li>✓ Result types & error handling</li>
+                    <li>✓ 515 comprehensive tests</li>
+                </ul>
+                <a href="aria/">Explore Aria →</a>
+            </div>
+
+            <div class="card">
+                <h2>🧠 AI Research</h2>
+                <p>
+                    Exploring consciousness, cognition, and intelligent systems. Research into emergent behavior,
+                    self-awareness, and the foundations of artificial general intelligence.
+                </p>
+                <ul style="text-align: left; opacity: 0.9; margin-bottom: 1.5rem;">
+                    <li>✓ Consciousness models</li>
+                    <li>✓ Emergent behavior</li>
+                    <li>✓ Ethical AI development</li>
+                    <li>✓ Open research</li>
+                </ul>
+                <a href="https://i.am.aria.ai-lp.org">Meet Aria AI →</a>
+            </div>
+
+            <div class="card">
+                <h2>🎓 Education</h2>
+                <p>
+                    Interactive demonstrations and educational tools. Learn through visualization and
+                    hands-on experimentation with core computing concepts.
+                </p>
+                <ul style="text-align: left; opacity: 0.9; margin-bottom: 1.5rem;">
+                    <li>✓ Memory management visualizations</li>
+                    <li>✓ Consciousness experiments</li>
+                    <li>✓ Interactive demonstrations</li>
+                    <li>✓ No build steps - pure web</li>
+                </ul>
+                <a href="demos/">View Demos →</a>
+            </div>
+        </div>
+
+        <div class="status">
+            <h3>🔥 Active Projects (February 2026)</h3>
+            <div class="status-grid">
+                <div class="status-item">
+                    <strong>Aria Compiler</strong>
+                    <span>Phase 2 (51% complete)<br>515 tests passing<br>V2 fuzzer active</span>
+                </div>
+                <div class="status-item">
+                    <strong>Documentation</strong>
+                    <span>350+ guide pages<br>Full API reference<br>Interactive examples</span>
+                </div>
+                <div class="status-item">
+                    <strong>Semantic Archive</strong>
+                    <span>Hybrid search system<br>Vector + lexical<br>Processing 900+ docs</span>
+                </div>
+                <div class="status-item">
+                    <strong>Standard Library</strong>
+                    <span>I/O system complete<br>Core modules stable<br>Continuous expansion</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AI Liberation Platform | Open Source | Ethical AI Development</p>
+    </footer>
+</body>
+</html>

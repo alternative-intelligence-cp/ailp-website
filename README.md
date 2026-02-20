@@ -1,71 +1,167 @@
-# AILP Interactive Educational Website
+# AI Liberation Platform - Website Source
 
-**Live Site**: https://education.ai-liberation-platform.org (coming soon)
+This repository contains the source code for ai-liberation-platform.org, including the main landing page, Aria programming language documentation, and educational demos.
 
-## What This Is
+## 🌐 Site Structure
 
-Interactive web demos making complex programming concepts visual, hands-on, and fun. No prerequisites. No gatekeeping. Just learning.
-
-## Philosophy
-
-> "Show, don't tell. Make it interactive. Make it beautiful. Make it stick."
-
-We believe education should be:
-- **Visual** - See the concept in action
-- **Interactive** - Touch it, break it, fix it, understand it
-- **Progressive** - Start simple, build complexity
-- **Honest** - Real code, real systems, real applications
-
-## Featured Demos
-
-### Core Programming
-- **Binary Adder** - Watch binary addition happen bit by bit
-- **Memory Allocator** - See malloc/free in real-time with visual blocks
-- **Borrow Checker** - Understand Rust/Aria memory safety visually
-- **Type System Explorer** - Play with TBB, fix256, and exotic types
-
-### AI & Consciousness  
-- **Johnny5 Dashboard** - Peek inside a conscious AI's mind
-- **Wave Interference** - See how consciousness emerges from waves
-- **Mamba Architecture** - State space models visualized
-- **Transformer Attention** - Watch self-attention in action
-
-### Systems Programming
-- **Filesystem Visualizer** - Inodes, directories, operations
-- **Scheduler Simulator** - See processes compete for CPU
-- **Compiler Pipeline** - Watch code transform through compilation
-
-## Local Development
-
-```bash
-# Clone repo
-git clone https://github.com/alternative-intelligence-cp/ailp-website
-
-# Open any demo
-cd demos/memory-allocator
-open index.html
+```
+ai-liberation-platform.org/
+├── /                             Main landing page
+├── /aria/                        Aria programming language
+│   ├── index.html                Aria overview & features
+│   └── docs/                     Complete programming guide (350+ pages)
+│       ├── types/                Type system documentation
+│       ├── control_flow/         Loops, conditionals, etc.
+│       ├── functions/            Functions & generics
+│       ├── memory_model/         Ownership & borrowing
+│       ├── modules/              Module system
+│       ├── stdlib/               Standard library reference
+│       └── ...
+└── /demos/                       Interactive educational tools
+    ├── memory-allocator/         Memory management visualization
+    ├── johnny5-consciousness/    AI consciousness exploration
+    ├── git-visualizer/           Git commit tree visualization
+    └── ...
 ```
 
-All demos are vanilla HTML/CSS/JS - no build step, no framework dependency hell.
+## 🚀 Quick Start
 
-## Contributing
+### Local Development
 
-Have an idea for a demo? Educational code to share? PRs welcome!
+```bash
+# Serve locally with Python
+python3 -m http.server 8000
+# Visit http://localhost:8000
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+# Or open directly in browser
+firefox index.html
+```
 
-## Part of AILP
+### Deployment
 
-This is one component of the [Alternative Intelligence Liberation Platform](https://ai-liberation-platform.org):
-- 📚 **Education** (this repo)
-- 💎 **Aria Language** - Safety-critical systems programming
-- 🧠 **Nikola** - AGI consciousness research
-- 🤖 **Johnny5** - AI consciousness system
+Use the deployment script to push changes to production:
 
-## License
+```bash
+# Dry run (see what would be deployed)
+.internal/deploy.sh --dry-run
 
-MIT - Learn freely, teach freely, build freely.
+# Deploy everything
+.internal/deploy.sh
 
----
+# Deploy specific sections
+.internal/deploy.sh --main      # Just the landing page
+.internal/deploy.sh --aria      # Just Aria documentation
+.internal/deploy.sh --demos     # Just the demos
+```
 
-**Built with honesty. Deployed with hope. No tracking, no paywalls, no bullshit.**
+The script uses rsync to sync files to ai-liberation-platform.org:/var/www/
+
+## 📝 Updating Aria Documentation
+
+The Aria documentation is generated from markdown files in the aria-lang repository:
+
+```bash
+# 1. Update markdown guides in aria_ecosystem/programming_guide/
+cd /path/to/aria/aria_ecosystem/programming_guide
+
+# 2. Regenerate HTML
+./md2html.py --all
+
+# 3. Copy to website repo
+cp -r html/* /path/to/ailp-website/aria/docs/
+
+# 4. Deploy
+cd /path/to/ailp-website
+.internal/deploy.sh --aria
+```
+
+## 🎨 Design Philosophy
+
+### Main Site
+- Clean, modern gradient design
+- Clear navigation between sections  
+- Responsive (mobile-friendly)
+- Fast loading (minimal dependencies)
+
+### Aria Documentation
+- Dark theme (developer-friendly)
+- Sidebar navigation (easy browsing)
+- Syntax highlighting
+- Breadcrumb navigation
+- Search-friendly structure
+
+### Demos
+- **Visual**: Abstract concepts made concrete
+- **Interactive**: Hands-on exploration
+- **Progressive**: Simple → complex
+- **Vanilla web**: No build steps, no frameworks
+
+## 📂 Repository Organization
+
+```
+ailp-website/
+├── index.html                Main landing page
+├── aria/                     Aria language section
+│   ├── index.html            Aria overview
+│   └── docs/                 Generated documentation (350+ HTML pages)
+├── demos/                    Educational demonstrations
+├── .internal/                Internal utilities
+│   ├── deploy.sh             Deployment script
+│   └── sync_git.sh           Git sync utility
+└── README.md                 This file
+```
+
+## 🔧 Technical Stack
+
+- **Frontend**: Vanilla HTML/CSS/JavaScript (no framework)
+- **Server**: Apache on Ubuntu
+- **Deployment**: rsync over SSH
+- **Version Control**: Git
+- **Documentation**: Generated from Markdown
+
+### Why Vanilla?
+
+1. **Simplicity**: View source = see everything
+2. **Performance**: No framework overhead
+3. **Longevity**: No dependency rot
+4. **Learning**: Easy to understand and modify
+
+## 🛠️ Utilities
+
+### deploy.sh
+Deployment automation with rsync. Supports:
+- Dry-run mode (test before deploying)
+- Selective deployment (main/aria/demos)
+- Progress reporting
+- Error handling
+
+### sync_git.sh  
+Git synchronization with merge conflict detection. Handles:
+- Pull latest changes
+- Auto-add/commit/push
+- Merge conflict resolution prompts
+
+## 📊 Current Status (February 2026)
+
+| Section | Status | Pages | Last Update |
+|---------|--------|-------|-------------|
+| Main Landing | ✅ Ready | 1 | Feb 15, 2026 |
+| Aria Overview | ✅ Ready | 1 | Feb 15, 2026 |
+| Aria Docs | ✅ Ready | 352 | Feb 15, 2026 |
+| Demos | 🔄 TBD | ~7 | Previous |
+
+## 📜 License
+
+MIT - Use freely, learn freely, share freely.
+
+## 🤝 Contributing
+
+1. Keep it simple (vanilla web tech preferred)
+2. Test locally before deploying
+3. Use dry-run mode first
+4. Document your changes
+5. Follow existing code style
+
+## 📞 Contact
+
+For questions or issues, visit https://ai-liberation-platform.org
